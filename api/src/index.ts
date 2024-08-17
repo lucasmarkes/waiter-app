@@ -18,7 +18,7 @@ mongoose
 
     console.log("Connected to MongoDB");
     app.listen(port, () => {
-      console.log("Server is running on http://localhost:3000");
+      console.log("Server is running on http://localhost:3001");
     });
   })
   .catch((err) => {
