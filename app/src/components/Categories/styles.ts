@@ -1,6 +1,9 @@
+import { Platform } from "react-native";
 import styled from "styled-components/native";
 
-export const Category = styled.View`
+const isAndroid = Platform.OS === "android";
+
+export const Category = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   margin-left: 24px;
@@ -8,10 +11,11 @@ export const Category = styled.View`
 
 export const Icon = styled.View`
   background-color: #fff;
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
   align-items: center;
   justify-content: center;
   flex-direction: row;
+  box-shadow: 0px 2px 1px rgba(0, 0, 0, ${isAndroid ? 1 : 0.1});
 `;
