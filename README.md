@@ -1,6 +1,6 @@
 <p align="center">
   <a href="" rel="noopener">
- <img width=200px height=200px src="/fe/src/assets/images/logo.svg" alt="Project logo"></a>
+ <img src="https://github.com/user-attachments/assets/4878f81e-c614-4ebe-89f3-4178fb251311" alt="Project logo"></a>
 </p>
 
 <h3 align="center">Waiter App</h3>
