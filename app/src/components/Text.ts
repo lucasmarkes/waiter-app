@@ -5,6 +5,7 @@ interface TextProps {
   color?: string;
   size?: number;
   opacity?: number;
+  style?: object;
 }
 
 export const Text = styled.Text<TextProps>`
@@ -12,4 +13,5 @@ export const Text = styled.Text<TextProps>`
   color: ${({ color }: { color: string }) => color || '#333'};
   font-size: ${({ size }: { size: string }) => size ? `${size}px` : '16px'};
   opacity: ${({ opacity }: { opacity: number }) => opacity || 1};
+  ${({ style }: { style?: object }) => style};
 `;
