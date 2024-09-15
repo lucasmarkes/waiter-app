@@ -21,11 +21,6 @@ export const products = [
         icon: '🧀',
         _id: '6372e040f52e37ef85fe2c61'
       },
-      {
-        name: 'Brie',
-        icon: '🧀',
-        _id: '6372e040f52e37ef85fe2c62'
-      }
     ],
   },
 ];
