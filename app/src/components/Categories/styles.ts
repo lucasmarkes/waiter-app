@@ -18,4 +18,5 @@ export const Icon = styled.View`
   justify-content: center;
   flex-direction: row;
   box-shadow: 0px 2px 1px rgba(0, 0, 0, ${isAndroid ? 1 : 0.1});
+  margin-bottom: 8px;
 `;
