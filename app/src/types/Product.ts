@@ -10,3 +10,8 @@ export interface IProduct {
     _id: string;
   }[];
 }
+
+export interface CartItem {
+  product: IProduct;
+  quantity: number;
+}
