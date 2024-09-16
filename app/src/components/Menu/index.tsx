@@ -14,7 +14,11 @@ import {
   Separator,
 } from "./styles";
 
-export function Menu() {
+interface MenuProps {
+  onAddTocart: (product: IProduct) => void;
+}
+
+export function Menu({ onAddTocart }: MenuProps) {
   const [isProductModalVisible, setIsProductModalVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<null | IProduct>(null);
 
@@ -29,6 +33,7 @@ export function Menu() {
         visible={isProductModalVisible}
         onClose={() => setIsProductModalVisible(false)}
         product={selectedProduct}
+        onAddToCart={onAddTocart}
       />
       <FlatList
         data={products}
@@ -54,7 +59,7 @@ export function Menu() {
               </Text>
             </ProductDetails>
 
-            <AddToCartButton>
+            <AddToCartButton onPress={() => onAddTocart(product)}>
               <PlusCircle />
             </AddToCartButton>
           </Product>
