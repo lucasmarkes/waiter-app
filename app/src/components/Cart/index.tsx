@@ -3,6 +3,7 @@ import { FlatList, TouchableOpacity } from "react-native";
 import { OrderConfirmedModal } from "../../OrderConfirmedModal";
 import { CartItem } from "../../types/CartItem";
 import { IProduct } from "../../types/Product";
+import { api } from "../../utils/api";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { Button } from "../Button";
 import { MinusCircle } from "../Icons/MinusCircle";
@@ -24,6 +25,7 @@ interface CartProps {
   onAdd: (product: IProduct) => void;
   onRemove: (product: IProduct) => void;
   onConfirmOrder: () => void;
+  selectedTable: string;
 }
 
 export function Cart({
@@ -31,6 +33,7 @@ export function Cart({
   onAdd,
   onRemove,
   onConfirmOrder,
+  selectedTable,
 }: CartProps) {
   const [isOrderConfirmedModalVisible, setIsOrderConfirmedModalVisible] =
     useState(false);
@@ -40,8 +43,19 @@ export function Cart({
     return acc + cartItem.product.price * cartItem.quantity;
   }, 0);
 
-  function handleConfirmOrder() {
-    console.log("Pedido confirmado!");
+  async function handleConfirmOrder() {
+    setIsLoading(true);
+    const orderPayload = {
+      table: selectedTable,
+      products: cartItems.map((cartItem) => ({
+        product: cartItem.product._id,
+        quantity: cartItem.quantity,
+      })),
+    };
+
+    await api.post("/orders", orderPayload);
+
+    setIsLoading(false);
     setIsOrderConfirmedModalVisible(true);
   }
 

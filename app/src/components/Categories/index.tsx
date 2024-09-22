@@ -6,13 +6,16 @@ import { Category, Icon } from "./styles";
 
 interface CategoriesProps {
   categories: ICategory[];
+  onSelectCategory: (categoryId: string) => Promise<void>;
 }
 
-export function Categories({ categories }: CategoriesProps) {
+export function Categories({ categories, onSelectCategory }: CategoriesProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
 
   function handleSelectCategory(categoryId: string) {
     const category = selectedCategory === categoryId ? "" : categoryId;
+
+    onSelectCategory(category);
     setSelectedCategory(category);
   }
 
@@ -26,7 +29,11 @@ export function Categories({ categories }: CategoriesProps) {
       renderItem={({ item: category }) => {
         const isSelected = selectedCategory === category._id;
         return (
-          <Category onPress={() => handleSelectCategory(category._id)}>
+          <Category
+            onPress={() => {
+              handleSelectCategory(category._id);
+            }}
+          >
             <Icon>
               <Text opacity={isSelected ? 1 : 0.5}>{category.icon}</Text>
             </Icon>

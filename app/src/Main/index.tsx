@@ -28,6 +28,7 @@ export function Main() {
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState<IProduct[]>([]);
   const [categories, setCategories] = useState<ICategory[]>([]);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
 
   function handleSaveTable(table: string) {
     setSelectedTable(table);
@@ -89,6 +90,19 @@ export function Main() {
     });
   }
 
+  async function handleSelectCategory(categoryId: string) {
+    const route = !categoryId
+      ? "/products"
+      : `/categories/${categoryId}/products`;
+
+    setIsLoadingProducts(true);
+
+    const { data } = await api.get(route);
+
+    setProducts(data);
+    setIsLoadingProducts(false);
+  }
+
   useEffect(() => {
     Promise.all([api.get("/categories"), api.get("/products")]).then(
       ([categoriesResponse, productsResponse]) => {
@@ -109,20 +123,31 @@ export function Main() {
         {!isLoading && (
           <>
             <CategoriesContainer>
-              <Categories categories={categories} />
+              <Categories
+                categories={categories}
+                onSelectCategory={handleSelectCategory}
+              />
             </CategoriesContainer>
 
-            {products.length > 0 ? (
-              <MenuContainer>
-                <Menu onAddTocart={handleAddToCart} products={products} />
-              </MenuContainer>
-            ) : (
+            {isLoadingProducts ? (
               <CenteredContainer>
-                <Empty />
-                <Text color="#666" style={{ marginTop: 24 }}>
-                  Nenhum produto encontrado!
-                </Text>
+                <ActivityIndicator size="large" color="#D73035" />
               </CenteredContainer>
+            ) : (
+              <>
+                {products.length > 0 ? (
+                  <MenuContainer>
+                    <Menu onAddTocart={handleAddToCart} products={products} />
+                  </MenuContainer>
+                ) : (
+                  <CenteredContainer>
+                    <Empty />
+                    <Text color="#666" style={{ marginTop: 24 }}>
+                      Nenhum produto encontrado!
+                    </Text>
+                  </CenteredContainer>
+                )}
+              </>
             )}
           </>
         )}
@@ -151,6 +176,7 @@ export function Main() {
               onAdd={handleAddToCart}
               onRemove={handleRemoveFromCart}
               onConfirmOrder={handleResetOrder}
+              selectedTable={selectedTable}
             />
           )}
         </FooterContainer>
