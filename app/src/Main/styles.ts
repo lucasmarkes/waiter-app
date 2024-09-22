@@ -14,10 +14,6 @@ export const CategoriesContainer = styled.View`
   margin-top: 32px;
 `;
 
-export const MenuContainer = styled.View`
-  flex: 1
-`;
-
 export const Footer = styled.View`
   min-height: 112px;
   background-color: #fff;
@@ -25,4 +21,15 @@ export const Footer = styled.View`
 `;
 
 export const FooterContainer = styled.SafeAreaView`
+`;
+
+export const CenteredContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+
+export const MenuContainer = styled.View`
+  flex: 1
 `;
