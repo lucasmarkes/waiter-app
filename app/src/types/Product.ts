@@ -11,7 +11,3 @@ export interface IProduct {
   }[];
 }
 
-export interface CartItem {
-  product: IProduct;
-  quantity: number;
-}

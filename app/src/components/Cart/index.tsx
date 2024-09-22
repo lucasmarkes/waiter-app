@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { FlatList, TouchableOpacity } from "react-native";
 import { OrderConfirmedModal } from "../../OrderConfirmedModal";
-import { CartItem, IProduct } from "../../types/Product";
+import { CartItem } from "../../types/CartItem";
+import { IProduct } from "../../types/Product";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { Button } from "../Button";
 import { MinusCircle } from "../Icons/MinusCircle";
