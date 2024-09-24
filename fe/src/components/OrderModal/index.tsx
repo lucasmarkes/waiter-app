@@ -14,17 +14,19 @@ export function OrderModal({
   open,
   order,
   onClose,
+  onCancelOrder,
+  isLoading,
+  handleChangeOrderStatus,
 }: {
   open: boolean;
   order: Order | null;
   onClose: () => void;
+  onCancelOrder: () => Promise<void>;
+  isLoading: boolean;
+  handleChangeOrderStatus: () => Promise<void>;
 }) {
-  if (!open || !order) {
-    return null;
-  }
-
-  const totalPrice = order.products.reduce((acc, { product, quantity }) => {
-    return acc + product.price * quantity;
+  const totalPrice = order?.products.reduce((acc, { product, quantity }) => {
+    return acc + product?.price * quantity;
   }, 0);
 
   useEffect(() => {
@@ -40,6 +42,10 @@ export function OrderModal({
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [onClose]);
+
+  if (!open || !order) {
+    return;
+  }
 
   return (
     <Overlay>
@@ -77,15 +83,15 @@ export function OrderModal({
                 <img
                   width={56}
                   height={28.51}
-                  src={`http://localhost:3001/uploads/${product.imagePath}`}
-                  alt={product.name}
+                  src={`http://localhost:3001/uploads/${product?.imagePath}`}
+                  alt={product?.name}
                 />
 
                 <span className="quantity">{quantity}x</span>
 
                 <div className="productDetails">
-                  <strong>{product.name}</strong>
-                  <span>{formatCurrency(product.price)}</span>
+                  <strong>{product?.name}</strong>
+                  <span>{formatCurrency(product?.price)}</span>
                 </div>
               </div>
             ))}
@@ -93,16 +99,34 @@ export function OrderModal({
 
           <div className="total">
             <span>Total</span>
-            <strong>{formatCurrency(totalPrice)}</strong>
+            <strong>{formatCurrency(totalPrice!)}</strong>
           </div>
         </OrderDetails>
 
         <Actions>
-          <button type="button" className="primary">
-            <span>👨🏻‍🍳</span>
-            <span>Iniciar produção</span>
-          </button>
-          <button type="button" className="secondary">
+          {order.status !== "DONE" && (
+            <button
+              type="button"
+              className="primary"
+              disabled={isLoading}
+              onClick={handleChangeOrderStatus}
+            >
+              <span>
+                {order.status === "WAITING" && "👨🏻‍🍳"}
+                {order.status === "IN_PRODUCTION" && "🔥"}
+              </span>
+              <strong>
+                {order.status === "WAITING" && "Iniciar Produção"}
+                {order.status === "IN_PRODUCTION" && "Concluir Pedido!"}
+              </strong>
+            </button>
+          )}
+          <button
+            type="button"
+            className="secondary"
+            onClick={onCancelOrder}
+            disabled={isLoading}
+          >
             Cancelar Pedido
           </button>
         </Actions>
